@@ -75,6 +75,7 @@ class MultiVolumeImporterPluginClass(DICOMPlugin):
     self.multiVolumeTagsUnits['CardiacCycle'] = "%"
     self.multiVolumeTagsUnits['NominalPercentageOfCardiacPhase'] = "%"
     self.multiVolumeTagsUnits['DeltaStartTime'] = "sec"
+    self.multiVolumeTagsUnits['seriesNumber'] =""
     self.epsilon = epsilon
 
   @staticmethod
@@ -168,7 +169,7 @@ class MultiVolumeImporterPluginClass(DICOMPlugin):
     logging.debug('MultiVolumeImportPlugin:examineMultiseries')
     loadables = []
 
-    mvNodes = self.initMultiVolumes(files,prescribedTags=['SeriesTime','AcquisitionTime','FlipAngle','CardiacCycle'])
+    mvNodes = self.initMultiVolumes(files,prescribedTags=['SeriesTime','AcquisitionTime','FlipAngle','CardiacCycle','seriesNumber'])
 
     logging.debug('DICOMMultiVolumePlugin found '+str(len(mvNodes))+' multivolumes!')
 
@@ -823,7 +824,7 @@ class MultiVolumeImporterPluginClass(DICOMPlugin):
           tagValue2FileList[tagValue] = [file]
 
     # iterate over the parsed items and decide which ones can qualify as mv
-    for frameTag in self.multiVolumeTags.keys():
+    for frameTag in consideredTags:
 
       try:
         tagValue2FileList = tag2ValueFileList[frameTag]
